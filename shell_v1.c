@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 #include <unistd.h>
+#include <signal.h>
 #include <sys/types.h>
 #include <sys/wait.h>
 #include <readline/readline.h>
@@ -53,6 +54,8 @@ int main(){
 	pid_t proc_id;
 	int status;
 
+	// Ignore Ctrl+C in Parent
+	signal(SIGINT, SIG_IGN);
 	while(1){
 		input = readline("sh>");
 		command = delimit(input);
@@ -76,6 +79,9 @@ int main(){
 			perror("Fork error:");
 			exit(1);
 		}else if(proc_id == 0){
+			// restore the default behavior in child
+			signal(SIGINT, SIG_DFL);
+
 			if(execvp(command[0], command) < 0){
 				perror("execvp error:");
 				exit(1);
