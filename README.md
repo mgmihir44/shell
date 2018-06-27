@@ -8,8 +8,7 @@ This is a complete implementation of Unix/Linux like shell. The shell is impleme
 inbuilt functions available in Linux. 
 
 To compile:
-
-We have to link the readline library
+We have to link the readline library:
 gcc -o shell shell.c -lreadline
 
 Features: 
